@@ -1,0 +1,42 @@
+buildscript {
+    ext.kotlinVersion = '1.0.0-beta-3595'
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile(name: 'nuimo-debug', ext: 'aar')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
+    enforceUniquePackageName = false
+
+    defaultConfig {
+        applicationId "com.senic.nuimo.test"
+        minSdkVersion 18
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">nuimo-test</string>
+    <string name="title_activity_main">Nuimo test app</string>
+    <string name="discover">Discover</string>
+</resources>
