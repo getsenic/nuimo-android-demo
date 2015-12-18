@@ -155,17 +155,12 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
     @Override
     public void onConnect() {
         log("Connected to " + (controller != null ? controller.getAddress() : "null"));
+        displayAllLedsOn();
     }
 
     @Override
     public void onDisconnect() {
         log("Disconnected");
-    }
-
-    @Override
-    public void onReady() {
-        //TODO: Extension function with default argument not visible
-        displayAllLedsOn();
     }
 
     @Override
