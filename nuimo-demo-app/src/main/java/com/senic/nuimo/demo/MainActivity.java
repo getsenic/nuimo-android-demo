@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
     boolean animatingLed = false;
     int animationIndex;
 
+    FunctionTestTask testTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,17 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
         toggleAnimationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (testTask == null) {
+                    if (controller == null) return;
+                    testTask = new FunctionTestTask(controller);
+                    testTask.start();
+                }
+                else {
+                    testTask = null;
+                }
+
+                if (true) return;
+
                 animatingLed = !animatingLed;
                 toggleAnimationButton.setImageResource(animatingLed ? android.R.drawable.ic_media_pause : android.R.drawable.ic_media_play);
                 if (animatingLed) {
@@ -130,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
 
     void displayMatrix(String string) {
         if (controller == null) return;
-        controller.displayLedMatrix(new NuimoLedMatrix(string), 2.0);
+        controller.displayLedMatrix(new NuimoLedMatrix(string), 20.0);
         log("Send matrix");
     }
 
@@ -197,6 +210,9 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
             default:             logText = event.getGesture().name();
         }
         log(logText);
+        if (testTask != null) {
+            testTask.onGestureEvent(event);
+        }
     }
 
     @Override
