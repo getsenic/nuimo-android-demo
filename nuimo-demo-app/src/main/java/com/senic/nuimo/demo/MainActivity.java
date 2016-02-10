@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
     @Override
     public void onDiscoverNuimoController(@NotNull NuimoController nuimoController) {
         //if (!nuimoController.getAddress().equals(""))
+        log("Discovered " + nuimoController.getAddress() + ". Trying to connect...");
         log("Stop discovery");
         discovery.stopDiscovery();
         controller = nuimoController;
@@ -156,6 +157,11 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
     public void onConnect() {
         log("Connected to " + (controller != null ? controller.getAddress() : "null"));
         displayAllLedsOn();
+    }
+
+    @Override
+    public void onFailToConnect() {
+        log("Failed to connect to " + (controller != null ? controller.getAddress() : "null"));
     }
 
     @Override
