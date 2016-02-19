@@ -190,6 +190,10 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
             case SWIPE_DOWN:     logText = "Swiped down"; break;
             case ROTATE_LEFT:
             case ROTATE_RIGHT:   logText = getLogTextForRotationEvent(event); break;
+            case FLY_LEFT:       logText = "Fly left, speed = " + event.getValue(); break;
+            case FLY_RIGHT:      logText = "Fly right, speed = " + event.getValue(); break;
+            case FLY_BACKWARDS:  logText = "Fly backwards, speed = " + event.getValue(); break;
+            case FLY_TOWARDS:    logText = "Fly towards, speed = " + event.getValue(); break;
             default:             logText = event.getGesture().name();
         }
         log(logText);
