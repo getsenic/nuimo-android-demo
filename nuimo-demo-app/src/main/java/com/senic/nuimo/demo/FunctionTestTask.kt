@@ -11,6 +11,7 @@ class FunctionTestTask(val controller: NuimoController) : NuimoControllerListene
     var rotationDirection = 1 // > 0: clockwise, < 0: counterclockwise
     var value = 0
     val numberOfSwipesToSucceed = 1
+    val numberOfFlightsToSucceed = 1
 
     fun start() {
         startTest(if (rotationTestOnly) { NuimoGesture.ROTATE } else { NuimoGesture.BUTTON_PRESS })
@@ -51,7 +52,13 @@ class FunctionTestTask(val controller: NuimoController) : NuimoControllerListene
                 if (++value >= numberOfSwipesToSucceed) { startTest(NuimoGesture.SWIPE_DOWN) }
             }
             NuimoGesture.SWIPE_DOWN -> {
-                if (++value >= numberOfSwipesToSucceed) { finish() }
+                if (++value >= numberOfSwipesToSucceed) { startTest(NuimoGesture.FLY_LEFT) }
+            }
+            NuimoGesture.FLY_LEFT -> {
+                if (++value >= numberOfFlightsToSucceed) { startTest(NuimoGesture.FLY_RIGHT) }
+            }
+            NuimoGesture.FLY_RIGHT -> {
+                if (++value >= numberOfFlightsToSucceed) { finish() }
             }
         }
     }
@@ -69,6 +76,8 @@ class FunctionTestTask(val controller: NuimoController) : NuimoControllerListene
                     NuimoGesture.SWIPE_RIGHT    -> NuimoLedMatrix(NuimoLedMatrix.swipeRightMatrixString())
                     NuimoGesture.SWIPE_UP       -> NuimoLedMatrix(NuimoLedMatrix.swipeUpMatrixString())
                     NuimoGesture.SWIPE_DOWN     -> NuimoLedMatrix(NuimoLedMatrix.swipeDownMatrixString())
+                    NuimoGesture.FLY_LEFT       -> NuimoLedMatrix(NuimoLedMatrix.flyLeftMatrixString())
+                    NuimoGesture.FLY_RIGHT      -> NuimoLedMatrix(NuimoLedMatrix.flyRightMatrixString())
                     else -> NuimoLedMatrix("")
                 }, 0.0
         )
@@ -163,6 +172,29 @@ private fun NuimoLedMatrix.Companion.swipeDownMatrixString() =
         "    *    " +
         "         " +
         "         "
+
+private fun NuimoLedMatrix.Companion.flyLeftMatrixString() =
+        "      *  " +
+        "     **  " +
+        "    *** *" +
+        " ********" +
+        "*********" +
+        " ********" +
+        "    *** *" +
+        "     **  " +
+        "      *  "
+
+private fun NuimoLedMatrix.Companion.flyRightMatrixString() =
+        "  *      " +
+        "  **     " +
+        "* ***    " +
+        "******** " +
+        "*********" +
+        "******** " +
+        "* ***    " +
+        "  **     " +
+        "  *      "
+
 
 private fun NuimoLedMatrix.Companion.emoticonHappyMatrix() = NuimoLedMatrix(
         "***   ***" +
