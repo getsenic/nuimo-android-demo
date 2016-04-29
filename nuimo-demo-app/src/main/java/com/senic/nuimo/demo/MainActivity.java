@@ -188,34 +188,40 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
             case SWIPE_RIGHT:    logText = "Swiped right"; break;
             case SWIPE_UP:       logText = "Swiped up"; break;
             case SWIPE_DOWN:     logText = "Swiped down"; break;
-            case ROTATE_LEFT:
-            case ROTATE_RIGHT:   logText = getLogTextForRotationEvent(event); break;
+            case ROTATE:         logText = getLogTextForRotationEvent(event); break;
             case FLY_LEFT:       logText = "Fly left, speed = " + event.getValue(); break;
             case FLY_RIGHT:      logText = "Fly right, speed = " + event.getValue(); break;
             case FLY_BACKWARDS:  logText = "Fly backwards, speed = " + event.getValue(); break;
             case FLY_TOWARDS:    logText = "Fly towards, speed = " + event.getValue(); break;
+            case FLY_UP_DOWN:    logText = "Fly, distance = " + event.getValue(); break;
             default:             logText = event.getGesture().name();
         }
         log(logText);
     }
 
+    @Override
+    public void onBatteryPercentageChange(int i) {
+        log("Battery percentage updated: " + i + "%");
+    }
+
     Date lastRotationDate;
-    NuimoGesture lastRotationDirection;
+    int lastRotationDirection = 0;
     int accumulatedRotationValue = 0;
     private String getLogTextForRotationEvent(NuimoGestureEvent event) {
         Date now = new Date();
         double speed = 0;
         int rotationValue = (event.getValue() == null ? 0 : event.getValue());
-        if (event.getGesture() == lastRotationDirection && (now.getTime() - lastRotationDate.getTime() < 2000)) {
+        int rotationDirection = rotationValue > 0 ? 1 : -1;
+        if (rotationDirection == lastRotationDirection && (now.getTime() - lastRotationDate.getTime() < 2000)) {
             speed = rotationValue / (double)(now.getTime() - lastRotationDate.getTime());
             accumulatedRotationValue += rotationValue;
         }
         else {
             accumulatedRotationValue = rotationValue;
         }
-        lastRotationDirection = event.getGesture();
+        lastRotationDirection = rotationDirection;
         lastRotationDate = now;
-        return String.format("Rotated %s %d\n  Speed: %.3f, Accumulated: %d", event.getGesture() == NuimoGesture.ROTATE_LEFT ? "left" : "right", rotationValue, speed, accumulatedRotationValue);
+        return String.format("Rotated %d\n  Speed: %.3f, Accumulated: %d", rotationValue, speed, accumulatedRotationValue);
     }
 
     private static String[] LED_ANIMATION_FRAMES = new String[] {
