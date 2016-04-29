@@ -62,13 +62,13 @@ class FunctionTestTask(val controller: NuimoController) : NuimoControllerListene
         value = 0
         controller.displayLedMatrix(
                 when(gesture) {
-                    NuimoGesture.BUTTON_PRESS -> NuimoLedMatrix.pressButtonMatrix()
+                    NuimoGesture.BUTTON_PRESS   -> NuimoLedMatrix.pressButtonMatrix()
                     NuimoGesture.BUTTON_RELEASE -> NuimoLedMatrix.releaseButtonMatrix()
-                    NuimoGesture.ROTATE -> NuimoLedMatrix(if (rotationDirection > 0) { NuimoLedMatrix.rotateRightMatrixString() } else { NuimoLedMatrix.rotateLeftMatrixString() })
-                    NuimoGesture.SWIPE_LEFT -> NuimoLedMatrix(NuimoLedMatrix.swipeLeftMatrixString())
-                    NuimoGesture.SWIPE_RIGHT -> NuimoLedMatrix(NuimoLedMatrix.swipeRightMatrixString())
-                    NuimoGesture.SWIPE_UP -> NuimoLedMatrix(NuimoLedMatrix.swipeUpMatrixString())
-                    NuimoGesture.SWIPE_DOWN -> NuimoLedMatrix(NuimoLedMatrix.swipeDownMatrixString())
+                    NuimoGesture.ROTATE         -> NuimoLedMatrix(if (rotationDirection > 0) { NuimoLedMatrix.rotateRightMatrixString() } else { NuimoLedMatrix.rotateLeftMatrixString() })
+                    NuimoGesture.SWIPE_LEFT     -> NuimoLedMatrix(NuimoLedMatrix.swipeLeftMatrixString())
+                    NuimoGesture.SWIPE_RIGHT    -> NuimoLedMatrix(NuimoLedMatrix.swipeRightMatrixString())
+                    NuimoGesture.SWIPE_UP       -> NuimoLedMatrix(NuimoLedMatrix.swipeUpMatrixString())
+                    NuimoGesture.SWIPE_DOWN     -> NuimoLedMatrix(NuimoLedMatrix.swipeDownMatrixString())
                     else -> NuimoLedMatrix("")
                 }, 0.0
         )
