@@ -14,9 +14,9 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     compile "com.senic:nuimo-android:0.3.2"
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:design:23.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
 }
 
