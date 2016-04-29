@@ -13,7 +13,6 @@ import com.senic.nuimo.NuimoController;
 import com.senic.nuimo.NuimoControllerListener;
 import com.senic.nuimo.NuimoDiscoveryListener;
 import com.senic.nuimo.NuimoDiscoveryManager;
-import com.senic.nuimo.NuimoGesture;
 import com.senic.nuimo.NuimoGestureEvent;
 import com.senic.nuimo.NuimoLedMatrix;
 
@@ -170,6 +169,17 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
     public void onConnect() {
         log("Connected to " + (controller != null ? controller.getAddress() : "null"));
         displayAllLedsOn();
+        // Automatically start function test after some seconds
+        new Thread() {
+            @Override public void run() {
+                try {
+                    sleep(3000);
+                    runOnUiThread(new Runnable() { @Override public void run() {
+                        toggleAnimationButton.performClick();
+                    }});
+                } catch (InterruptedException e) { }
+            }
+        }.start();
     }
 
     @Override
