@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
     int animationIndex;
 
     FunctionTestTask testTask;
+    boolean batteryTooLow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
             public void onClick(View v) {
                 if (testTask == null) {
                     if (controller == null) return;
+                    if (batteryTooLow) return;
                     testTask = new FunctionTestTask(controller);
                     testTask.start();
                 }
@@ -168,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
     @Override
     public void onConnect() {
         log("Connected to " + (controller != null ? controller.getAddress() : "null"));
+        batteryTooLow = false;
         displayAllLedsOn();
         // Automatically start function test after some seconds
         new Thread() {
@@ -226,8 +229,22 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
     }
 
     @Override
-    public void onBatteryPercentageChange(int i) {
-        log("Battery percentage updated: " + i + "%");
+    public void onBatteryPercentageChange(int batteryPercentage) {
+        log("Battery percentage updated: " + batteryPercentage + "%");
+        batteryTooLow = batteryPercentage < 40;
+        if (batteryTooLow) {
+            controller.displayLedMatrix(new NuimoLedMatrix(
+                    "   ***   " +
+                    "  ** **  " +
+                    "  *   *  " +
+                    "  *   *  " +
+                    "  *   *  " +
+                    "  *   *  " +
+                    "  *****  " +
+                    "  *****  " +
+                    "  *****  "
+            ), 20.0);
+        }
     }
 
     Date lastRotationDate;
