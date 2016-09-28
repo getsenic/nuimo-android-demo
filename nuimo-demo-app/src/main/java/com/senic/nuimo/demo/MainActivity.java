@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
 
+import com.senic.nuimo.NuimoBluetoothController;
 import com.senic.nuimo.NuimoController;
 import com.senic.nuimo.NuimoControllerListener;
 import com.senic.nuimo.NuimoDiscoveryListener;
@@ -33,7 +34,7 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends AppCompatActivity implements NuimoDiscoveryListener, NuimoControllerListener {
 
-    NuimoDiscoveryManager discovery = new NuimoDiscoveryManager(this);
+    NuimoDiscoveryManager discovery = NuimoDiscoveryManager.init(this);
     NuimoController controller;
 
     @Bind(R.id.log)
@@ -163,6 +164,11 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
         controller.connect();
     }
 
+    @Override
+    public void onLoseNuimoController(NuimoController nuimoController) {
+        log("Nuimo " + nuimoController + " has gone out of range");
+    }
+
     /**
      * NuimoControllerListener implementation
      */
@@ -172,6 +178,13 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
         log("Connected to " + (controller != null ? controller.getAddress() : "null"));
         batteryTooLow = false;
         displayAllLedsOn();
+        if (((NuimoBluetoothController) controller).calibrateFlyGesture()) {
+            log("Calibrating fly gesture sensor");
+        }
+        else {
+            log("Firmware doesn't support calibration of fly gesture sensor");
+        }
+
         // Automatically start function test after some seconds
         new Thread() {
             @Override public void run() {
@@ -217,8 +230,6 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
             case ROTATE:         logText = getLogTextForRotationEvent(event); break;
             case FLY_LEFT:       logText = "Fly left, speed = " + event.getValue(); break;
             case FLY_RIGHT:      logText = "Fly right, speed = " + event.getValue(); break;
-            case FLY_BACKWARDS:  logText = "Fly backwards, speed = " + event.getValue(); break;
-            case FLY_TOWARDS:    logText = "Fly towards, speed = " + event.getValue(); break;
             case FLY_UP_DOWN:    logText = "Fly, distance = " + event.getValue(); break;
             default:             logText = event.getGesture().name();
         }

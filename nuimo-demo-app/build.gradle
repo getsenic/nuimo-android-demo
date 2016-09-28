@@ -20,7 +20,7 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "com.senic:nuimo-android:0.4.0"
+    compile "com.senic:nuimo-android:0.7.0@aar"
     //compile(name: 'nuimo-debug', ext: 'aar')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.1'
