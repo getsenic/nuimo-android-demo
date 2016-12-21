@@ -127,6 +127,9 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
         if (controller != null) {
             controller.disconnect();
         }
+        if (!discovery.checkPermissions(this)) {
+            return;
+        }
         log("Start discovery");
         discovery.startDiscovery();
     }
