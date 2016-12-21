@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends AppCompatActivity implements NuimoDiscoveryListener, NuimoControllerListener {
 
-    NuimoDiscoveryManager discovery = NuimoDiscoveryManager.init(this);
+    NuimoDiscoveryManager discovery;
     NuimoController controller;
 
     @Bind(R.id.log)
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
             }
         });
 
+        discovery = NuimoDiscoveryManager.init(this);
         discovery.addDiscoveryListener(this);
     }
 
