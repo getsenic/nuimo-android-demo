@@ -1,6 +1,7 @@
 package com.senic.nuimo.demo;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.le.ScanSettings;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.senic.nuimo.NuimoBluetoothController;
 import com.senic.nuimo.NuimoController;
@@ -131,7 +133,9 @@ public class MainActivity extends AppCompatActivity implements NuimoDiscoveryLis
             return;
         }
         log("Start discovery");
-        discovery.startDiscovery();
+        if (!discovery.startDiscovery(ScanSettings.SCAN_MODE_LOW_LATENCY)) {
+            Toast.makeText(this, "Could not start discovery. Bluetooth enabled? Location/GPS enabled with high precision?", Toast.LENGTH_SHORT).show();
+        }
     }
 
     void displayAllLedsOn() {
